@@ -43,3 +43,36 @@ Hello from your local environment!
 
 ./mvnw spring-boot:build-image -Pnative
 ```
+
+### Build, test with CloudBuild in Cloud Build
+```shell
+gcloud builds submit  --machine-type E2-HIGHCPU-32
+
+gcloud builds submit  --machine-type E2-HIGHCPU-32 --config cloudbuild-native.yaml
+```
+
+### Deploy Docker images to Cloud Run
+
+Check existing deployed Cloud Run Services
+```shell
+export PROJECT_ID=$(gcloud config list --format 'value(core.project)')
+echo   $PROJECT_ID
+
+gcloud run services list
+```
+
+Deploy the Quotes JIT image
+```shell
+gcloud run deploy quotes \
+     --image gcr.io/${PROJECT_ID}/quotes \
+     --region us-central1 \
+     --memory 2Gi --allow-unauthenticated
+```
+
+Deploy the Quotes Native Java image
+```shell
+gcloud run deploy quotes-native \
+     --image gcr.io/${PROJECT_ID}/quotes-native \
+     --region us-central1 \
+     --memory 2Gi --allow-unauthenticated
+```

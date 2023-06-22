@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional //(readOnly = true)
 public class QuoteService {
   private final QuoteRepository quoteRepository;
 
@@ -28,9 +28,7 @@ public class QuoteService {
   }
 
   @Transactional
-  public Quote updateQuote(Quote quote){
-    return quoteRepository.save(quote);
-  }
+  public Quote updateQuote(Quote quote){ return quoteRepository.save(quote); }
 
   public Optional<Quote> findById(Long id){
     return quoteRepository.findById(id);

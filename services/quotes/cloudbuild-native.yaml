@@ -19,14 +19,20 @@ steps:
   args: ["verify"]
 - id: 'build-project'
   name: maven:3.9-eclipse-temurin-17
-  entrypoint: mvn
+  entrypoint: bash
+  args:
+  - '-c'
+  - |
+    bash <(curl -sL https://get.graalvm.org/jdk) graalvm-ce-java17-22.3.1
+    printenv
+    export JAVA_HOME="/workspace/graalvm-ce-java17-22.3.1"
+    gu install native-image
+    mvn spring-boot:build-image -Pnative -DskipTests
   volumes:
   - name: 'maven-repository'
     path: '/root/.m2'
-  args: ["spring-boot:build-image", "-DskipTests"]
-- id: 'store-image'
-  name: gcr.io/cloud-builders/docker
-  args: ["tag", "quotes", "gcr.io/$PROJECT_ID/quotes"]
+- name: gcr.io/cloud-builders/docker
+  args: ["tag", "quotes-native", "gcr.io/$PROJECT_ID/quotes-native"]
 - id: 'upload-cached-maven-dependencies'
   waitFor: [ 'build-project']
   name: gcr.io/cloud-builders/gsutil
@@ -39,4 +45,4 @@ steps:
   - |
     tar -zcf maven-dependencies.tgz /root/.m2
     gsutil cp maven-dependencies.tgz gs://${PROJECT_ID}-cache-dependencies/cache/maven-dependencies.tgz
-images: ["gcr.io/$PROJECT_ID/quotes"]
+images: ["gcr.io/$PROJECT_ID/quotes-native"]
