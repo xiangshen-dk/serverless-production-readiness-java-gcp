@@ -32,12 +32,34 @@ Hello from your local environment!
 
 ### Build a JVM and Native Java application image
 ```
-./mvnw clean package -DskipTests 
+./mvnw package -DskipTests 
 
 ./mvnw native:compile -Pnative -DskipTests
 ```
 
-### Build a JVM and Native Java Docker Image
+### Build a JVM and Native Java application tests
+```
+./mvnw verify
+
+ ./mvnw -PnativeTest test
+```
+
+### Start your app with AOT enabled
+```shell
+java -Dspring.aot.enabled -jar target/quotes-1.0.0.jar
+```
+### Build a Docker image with Dockerfiles
+```shell
+# build an image with jlink
+docker build . -f ./containerize/Dockerfile -t quotes-jlink
+
+# build an image with a fat JAR
+docker build -f ./containerize/Dockerfile-fatjar -t quotes-fatjar .
+
+# build an image with custom layers
+docker build -f ./containerize/Dockerfile-custom -t quotes-custom .
+```
+### Build a JIT and Native Java Docker Image with Buildpacks
 ```
 ./mvnw spring-boot:build-image -Pjit
 
@@ -75,4 +97,14 @@ gcloud run deploy quotes-native \
      --image gcr.io/${PROJECT_ID}/quotes-native \
      --region us-central1 \
      --memory 2Gi --allow-unauthenticated
+```
+
+Test the application in Cloud Run
+```shell
+TOKEN=$(gcloud auth print-identity-token)
+
+http -A bearer -a $TOKEN  https://quotes-ndn7ymldhq-uc.a.run.app/random-quote
+http -A bearer -a $TOKEN  https://quotes-ndn7ymldhq-uc.a.run.app/quotes
+
+
 ```

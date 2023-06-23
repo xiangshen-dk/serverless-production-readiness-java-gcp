@@ -96,6 +96,8 @@ hs_err_pid*
 
 .vscode/
 target/
+target-native/
 
 .DS_Store
 .idea/
+/test-results-native/test/TEST-junit-jupiter.xml

@@ -1,5 +1,6 @@
 package com.example.quotes;
 
+import com.example.quotes.domain.Quote;
 import com.example.quotes.domain.QuoteRepository;
 import com.example.quotes.domain.QuoteService;
 import java.io.IOException;
@@ -15,6 +16,11 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+// import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @Testcontainers
 @DataJpaTest
@@ -30,9 +36,6 @@ class QuotesRepositoryTest {
 
   @BeforeEach
   void setUp() throws IOException {
-    // print a list of all the containers test containers are currently running
-    // System.out.println("Container is running: " + postgres.isRunning());
-    // System.out.println("Container is healthy: " + postgres.isHealthy());
     quoteService = new QuoteService(quoteRepository);
   }
 
@@ -44,4 +47,48 @@ class QuotesRepositoryTest {
     assertThat(quote).isNotNull();
   }
 
+  @Test
+  @DisplayName("All quotes are returned")
+  void testAllQuotes(@Autowired QuoteRepository quoteRepository) {
+    var quotes = this.quoteService.getAllQuotes();
+    assertThat(quotes).isNotNull();
+  }
+
+  @Test
+  @DisplayName("Create a quote")
+  void testCreateQuote(){
+    var quote = new Quote();
+    quote.setAuthor("Truman Capote");
+    quote.setQuote("Anyone who ever gave you confidence, you owe them a lot.");
+    quote.setBook("Breakfast at Tiffany''s");
+
+    var result = this.quoteService.createQuote(quote);
+    assertThat(result.getAuthor()).isEqualTo("Truman Capote");
+  }
+
+  @Test
+  @DisplayName("Delete a quote - failed")
+  void testDeleteQuote(){
+    assertFalse(quoteRepository.existsById(1000L));
+
+    assertDoesNotThrow(() -> {
+      quoteService.deleteById(1000l);
+    });
+  }
+
+  @Test
+  @DisplayName("Delete a quote - good")
+  void testDeleteQuoteGood(){
+    var quote = new Quote();
+    quote.setAuthor("Tennessee Williams");
+    quote.setQuote("Time is the longest distance between two places.");
+    quote.setBook("The Glass Menagerie");
+
+    var result = this.quoteService.createQuote(quote);
+    assertThat(result.getAuthor()).isEqualTo("Tennessee Williams");
+
+    assertDoesNotThrow(() -> {
+      quoteRepository.deleteById(result.getId());
+    });
+  }
 }
