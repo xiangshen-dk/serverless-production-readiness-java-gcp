@@ -109,7 +109,7 @@ public class BffController {
 
       return new ResponseEntity<String>(faultyResponse.string(), HttpStatus.OK);
     } catch (IOException e) {
-      logger.error("Failed to retrieve data from the Quotes service:", e);
+      logger.error("Failed to retrieve data from the Faulty service:", e);
       return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }

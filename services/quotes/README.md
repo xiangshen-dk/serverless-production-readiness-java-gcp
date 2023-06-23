@@ -103,8 +103,11 @@ Test the application in Cloud Run
 ```shell
 TOKEN=$(gcloud auth print-identity-token)
 
+# Test JIT image
 http -A bearer -a $TOKEN  https://quotes-ndn7ymldhq-uc.a.run.app/random-quote
 http -A bearer -a $TOKEN  https://quotes-ndn7ymldhq-uc.a.run.app/quotes
 
-
+# Test Native Java image
+http -A bearer -a $TOKEN https://quotes-native-ndn7ymldhq-uc.a.run.app/random-quote
+http -A bearer -a $TOKEN https://quotes-native-ndn7ymldhq-uc.a.run.app/quotes
 ```
