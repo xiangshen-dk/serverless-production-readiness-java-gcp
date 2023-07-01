@@ -1,0 +1,28 @@
+FROM eclipse-temurin:17-jdk-alpine
+
+RUN apk --no-cache add curl
+
+WORKDIR app
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
+RUN java -Djarmode=layertools -jar app.jar extract
+
+COPY --from=builder app/dependencies/ ./
+COPY --from=builder app/spring-boot-loader/ ./
+COPY --from=builder app/snapshot-dependencies/ ./
+COPY --from=builder app/app/ ./
+
+# if these build args arent set, env vars in the container defintion will be used
+ARG ENVIRONMENT
+ARG REGION
+ARG VERSION
+
+ENV VERSION=${VERSION}
+ENV ENVIRONMENT=${ENVIRONMENT}
+ENV REGION=${REGION}
+ENV SPRING_MAIN_BANNER-MODE=off
+
+EXPOSE 3001
+
+#ENTRYPOINT java -jar -Dserver.port=3001 -Dspring.profiles.active=${ENVIRONMENT} app.jar
+ENTRYPOINT ["java", "-Dserver.port", "3001", "-Dspring.profiles.active", "${ENVIRONMENT}", "org.springframework.boot.loader.JarLauncher"]

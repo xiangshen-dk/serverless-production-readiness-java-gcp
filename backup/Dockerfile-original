@@ -1,0 +1,22 @@
+FROM amazoncorretto:17-alpine
+#FROM eclipse-temurin:17-jdk-alpine
+
+RUN apk --no-cache add curl
+
+WORKDIR app
+COPY target/*.jar app.jar
+
+# if these build args arent set, env vars in the container defintion will be used
+ARG ENVIRONMENT
+ARG REGION
+ARG VERSION
+
+ENV VERSION=${VERSION}
+ENV ENVIRONMENT=${ENVIRONMENT}
+ENV REGION=${REGION}
+ENV SPRING_MAIN_BANNER-MODE=off
+
+EXPOSE 3001
+
+ENTRYPOINT java -jar -Dserver.port=3001 -Dspring.profiles.active=${ENVIRONMENT} app.jar
+
