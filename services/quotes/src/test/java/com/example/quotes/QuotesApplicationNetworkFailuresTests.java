@@ -6,12 +6,7 @@ import eu.rekawek.toxiproxy.Proxy;
 import eu.rekawek.toxiproxy.ToxiproxyClient;
 import eu.rekawek.toxiproxy.model.ToxicDirection;
 import eu.rekawek.toxiproxy.model.toxic.Latency;
-import java.io.IOException;
-import java.time.Duration;
-import java.util.concurrent.TimeoutException;
 import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.Network;
@@ -29,9 +23,14 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.ToxiproxyContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+
+import java.io.IOException;
+import java.time.Duration;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTimeout;
+import static org.junit.jupiter.api.Assertions.assertTimeoutPreemptively;
 
 @Testcontainers
 @DataJpaTest
@@ -116,13 +115,29 @@ class QuotesApplicationNetworkFailuresTests {
 	}
 
 	@Test
+	@DisplayName("Retry: Test with timeout, remove latency, then retry successfully")
 	void withLatencyWithRetries() throws IOException {
 		Latency latency = postgresqlProxy.toxics().latency("postgresql-latency", ToxicDirection.DOWNSTREAM, 1600)
 				.setJitter(100);
 
-		// var quote = this.quoteService.findRandomQuote().;
-		// assertThat(quote).isNotNull();
+		System.out.println("First request fails with timeout");
+		try {
+			assertTimeout(Duration.ofSeconds(1), () -> {
+				this.quoteService.findRandomQuote();
+			});
+		}catch (AssertionFailedError e){
+			System.out.println(e.getMessage());
+		}
 
+		System.out.println("Remove latency, second request should succeed");
+		try {
+			latency.remove();
+		}catch(IOException e){
+			throw new RuntimeException(e);
+		}
+
+		var quote = this.quoteService.findRandomQuote();
+		assertThat(quote).isNotNull();
 	}
 
 	@Ignore
@@ -130,25 +145,15 @@ class QuotesApplicationNetworkFailuresTests {
 	void withToxiProxyConnectionDown() throws IOException {
 		postgresqlProxy.toxics().bandwidth("postgres-cut-connection-downstream", ToxicDirection.DOWNSTREAM, 0);
 		postgresqlProxy.toxics().bandwidth("postgres-cut-connection-upstream", ToxicDirection.UPSTREAM, 0);
-		//
-		// assertThat(
-		// 		catchThrowable(() -> {
-		// 			var quote = this.quoteService.findRandomQuote();
-		// 			assertThat(quote).isNotNull();
-		// 		})
-		// ).as("calls fail with no connection").isInstanceOf(Throwable.class);
 
 		try {
-			assertTimeout(Duration.ofSeconds(1), () -> {
-				var quote = this.quoteService.findRandomQuote();
+			assertTimeoutPreemptively(Duration.ofSeconds(1), () -> {
+				var quote = this.quoteService.getAllQuotes();
 				assertThat(quote).isNotNull();
 			});
 		}catch (AssertionFailedError e){
 			System.out.println(e.getMessage());
 		}
-
-		// StepVerifier.create(this.serverlessServicesRepository.findAll().timeout(Duration.ofSeconds(5)))
-		// 		.verifyErrorSatisfies(throwable -> assertThat(throwable).isInstanceOf(TimeoutException.class));
 
 		postgresqlProxy.toxics().get("postgres-cut-connection-downstream").remove();
 		postgresqlProxy.toxics().get("postgres-cut-connection-upstream").remove();
