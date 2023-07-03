@@ -1,8 +1,8 @@
 package com.example.bff;
 
 import com.example.bff.actuator.StartupCheck;
-import com.example.data.Data;
-import com.example.data.Quote;
+import com.example.bff.data.Data;
+import com.example.bff.data.Quote;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
@@ -115,7 +115,7 @@ public class BffController {
   }
 
   @PostMapping("/quotes")
-  public ResponseEntity<String> createQuote(@RequestBody Data data) { 
+  public ResponseEntity<String> createQuote(@RequestBody Data data) {
     logger.info("Quote: " + data);
 
     // build a Quote
