@@ -9,17 +9,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class EventService {
+public class AuditService {
 
   private final FirestoreOptions firestoreOptions;
   private final Firestore firestore;
 
-  public EventService() {
+  public AuditService() {
     this.firestoreOptions = FirestoreOptions.getDefaultInstance();
     this.firestore = firestoreOptions.getService();
   }
-  public EventService(FirestoreOptions firestoreOptions, Firestore firestore) {
+  public AuditService(FirestoreOptions firestoreOptions, Firestore firestore) {
     this.firestoreOptions = firestoreOptions;
+    this.firestore = firestore;
+  }
+
+  public AuditService(Firestore firestore){
+    this.firestoreOptions = null;
     this.firestore = firestore;
   }
 

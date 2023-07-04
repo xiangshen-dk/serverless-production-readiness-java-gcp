@@ -32,7 +32,7 @@ public class AuditApplicationContainerTests {
         .build();
     Firestore firestore = options.getService();
 
-    this.eventService = new EventService(options, firestore);
+    this.eventService = new AuditService(options, firestore);
   }
 
   @Container
@@ -47,7 +47,7 @@ public class AuditApplicationContainerTests {
   }
 
   // @Autowired
-  private EventService eventService;
+  private AuditService eventService;
 
 //  @Disabled("Until Spring Boot 3.1 is released")
   @Test

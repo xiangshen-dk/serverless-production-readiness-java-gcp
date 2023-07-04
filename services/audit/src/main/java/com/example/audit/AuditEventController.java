@@ -15,6 +15,9 @@
  */
 package com.example.audit;
 
+import com.google.api.gax.rpc.PermissionDeniedException;
+import io.grpc.StatusRuntimeException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -41,13 +44,13 @@ import com.google.cloud.firestore.*;
 import com.google.api.core.ApiFuture;
 
 @RestController
-public class EventController {
-    private static final Logger logger = LoggerFactory.getLogger(EventController.class);
+public class AuditEventController {
+    private static final Logger logger = LoggerFactory.getLogger(AuditEventController.class);
 
     private static final List<String> requiredFields = Arrays.asList("ce-id", "ce-source", "ce-type", "ce-specversion");
 
     @Autowired
-    private EventService eventService;
+    private AuditService eventService;
 
     @PostConstruct
     public void init() {
@@ -106,9 +109,15 @@ public class EventController {
         try {
             ApiFuture<WriteResult> writeResult = eventService.storeImage(quote, author, book, randomID);
             logger.info("Book metadata saved in Firestore at " + writeResult.get().getUpdateTime());
-        } catch(IllegalArgumentException e){
+        } catch(IllegalArgumentException e) {
             System.out.println("Could not write quote data to Firestore" + e.getMessage());
             return new ResponseEntity<String>(msg, HttpStatus.FAILED_DEPENDENCY);
+        } catch(PermissionDeniedException | StatusRuntimeException e){
+            System.out.println("Can not access the Firestore service - permission denied: " + e.getMessage());
+            return new ResponseEntity<String>(msg, HttpStatus.UNAUTHORIZED);
+        } catch(Exception e) {
+            System.out.println("Can not access the Firestore service: " + e.getMessage());
+            return new ResponseEntity<String>(msg, HttpStatus.UNAUTHORIZED);
         }
 
         return new ResponseEntity<String>(msg, HttpStatus.OK);

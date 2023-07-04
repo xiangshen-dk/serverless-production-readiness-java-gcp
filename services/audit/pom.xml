@@ -53,10 +53,10 @@
             <groupId>com.google.cloud</groupId>
             <artifactId>google-cloud-storage</artifactId>
         </dependency>        
-		<dependency>
-			<groupId>com.google.api</groupId>
-			<artifactId>gax-grpc</artifactId>
-		</dependency>
+        <dependency>
+          <groupId>com.google.api</groupId>
+          <artifactId>gax-grpc</artifactId>
+        </dependency>
 
         <!-- Test -->
         <dependency>
@@ -96,11 +96,8 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <jvmArguments>
-                        -agentlib:native-image-agent=config-output-dir=target/native-im./taage
-                    </jvmArguments>
                     <image>
-                        <name>${project.artifactId}-maven-jit</name>            
+                        <name>${project.artifactId}</name>
                     </image>
                 </configuration>
             </plugin>

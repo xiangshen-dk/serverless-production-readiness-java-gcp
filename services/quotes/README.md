@@ -7,7 +7,7 @@
 git clone git@github.com:ddobrin/optimize-serverless-google-cloud-java.git
 
 # Note: subject to change!
-cd prod/quotes
+cd services/quotes
 ```
 
 ### Validate that you have Java 17 and Maven installed
@@ -28,6 +28,11 @@ curl localhost:8080
 
 # Output
 Hello from your local environment!
+```
+
+### Start your app with AOT enabled
+```shell
+java -Dspring.aot.enabled -jar target/quotes-1.0.0.jar
 ```
 
 ### Build a JVM and Native Java application image
