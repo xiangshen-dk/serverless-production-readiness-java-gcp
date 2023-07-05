@@ -1,9 +1,12 @@
 package com.example.quotes;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import com.example.quotes.domain.Quote;
 import com.example.quotes.domain.QuoteRepository;
 import com.example.quotes.domain.QuoteService;
-import java.io.IOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,12 +17,6 @@ import org.springframework.boot.testcontainers.service.connection.ServiceConnect
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-// import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @Testcontainers
 @DataJpaTest
@@ -34,7 +31,7 @@ class QuotesRepositoryTest {
   private QuoteService quoteService;
 
   @BeforeEach
-  void setUp() throws IOException {
+  void setUp() {
     quoteService = new QuoteService(quoteRepository);
   }
 
@@ -48,7 +45,7 @@ class QuotesRepositoryTest {
 
   @Test
   @DisplayName("All quotes are returned")
-  void testAllQuotes(@Autowired QuoteRepository quoteRepository) {
+  void testAllQuotes() {
     var quotes = this.quoteService.getAllQuotes();
     assertThat(quotes).isNotNull();
   }
@@ -70,9 +67,7 @@ class QuotesRepositoryTest {
   void testDeleteQuote(){
     assertFalse(quoteRepository.existsById(1000L));
 
-    assertDoesNotThrow(() -> {
-      quoteService.deleteById(1000l);
-    });
+    assertDoesNotThrow(() -> quoteService.deleteById(1000L));
   }
 
   @Test
@@ -86,8 +81,6 @@ class QuotesRepositoryTest {
     var result = this.quoteService.createQuote(quote);
     assertThat(result.getAuthor()).isEqualTo("Tennessee Williams");
 
-    assertDoesNotThrow(() -> {
-      quoteRepository.deleteById(result.getId());
-    });
+    assertDoesNotThrow(() -> quoteRepository.deleteById(result.getId()));
   }
 }

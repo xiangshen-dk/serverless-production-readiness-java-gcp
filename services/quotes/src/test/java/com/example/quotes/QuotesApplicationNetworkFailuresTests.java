@@ -59,8 +59,6 @@ class QuotesApplicationNetworkFailuresTests {
 		var toxiproxyClient = new ToxiproxyClient(toxiproxy.getHost(), toxiproxy.getControlPort());
 		postgresqlProxy = toxiproxyClient.createProxy("postgresql", "0.0.0.0:8666", "postgres:5432");
 
-		String s = postgres.getJdbcUrl();
-
 		registry.add("spring.datasource.url", () -> "jdbc:postgresql://%s:%d/%s".formatted(toxiproxy.getHost(),
 				toxiproxy.getMappedPort(8666), postgres.getDatabaseName()));
 		registry.add("spring.datasource.username", postgres::getUsername);
