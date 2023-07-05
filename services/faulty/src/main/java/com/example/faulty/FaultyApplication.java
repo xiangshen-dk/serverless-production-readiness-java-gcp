@@ -8,7 +8,6 @@ import org.apache.commons.logging.LogFactory;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-
 @SpringBootApplication
 public class FaultyApplication {
     // logger
