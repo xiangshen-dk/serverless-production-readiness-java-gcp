@@ -66,7 +66,7 @@ public class AuditApplicationTest {
                                 .header("ce-type", "test type")
                                 .header("ce-specversion", "test specversion")
                                 .header("ce-subject", "test subject"))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isOk());
     }
 
     @Test

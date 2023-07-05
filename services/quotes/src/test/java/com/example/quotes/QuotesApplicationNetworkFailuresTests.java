@@ -107,7 +107,7 @@ class QuotesApplicationNetworkFailuresTests {
 				this.quoteService.findRandomQuote();
 			});
 		}catch (AssertionFailedError e){
-			System.out.println(e.getMessage());
+			System.out.println("Test and encounter exception" + e.getMessage());
 		}
 	}
 
@@ -123,7 +123,7 @@ class QuotesApplicationNetworkFailuresTests {
 				this.quoteService.findRandomQuote();
 			});
 		}catch (AssertionFailedError e){
-			System.out.println(e.getMessage());
+			System.out.println("Test and encounter exception" + e.getMessage());
 		}
 
 		System.out.println("Remove latency, second request should succeed");
@@ -137,7 +137,6 @@ class QuotesApplicationNetworkFailuresTests {
 		assertThat(quote).isNotNull();
 	}
 
-	@Ignore
 	@Test
 	void withToxiProxyConnectionDown() throws IOException {
 		postgresqlProxy.toxics().bandwidth("postgres-cut-connection-downstream", ToxicDirection.DOWNSTREAM, 0);
@@ -149,7 +148,7 @@ class QuotesApplicationNetworkFailuresTests {
 				assertThat(quote).isNotNull();
 			});
 		}catch (AssertionFailedError e){
-			System.out.println(e.getMessage());
+			System.out.println("Test and encounter exception" + e.getMessage());
 		}
 
 		postgresqlProxy.toxics().get("postgres-cut-connection-downstream").remove();
