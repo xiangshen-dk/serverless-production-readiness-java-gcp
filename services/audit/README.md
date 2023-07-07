@@ -1,4 +1,4 @@
-# Optimize Serverless Apps In Google Cloud - Audirt Service
+# Optimize Serverless Apps In Google Cloud - Audit Service
 
 ### Create a Spring Boot Application
 
@@ -103,6 +103,27 @@ gcloud run deploy audit-native \
      --region us-central1 \
      --memory 2Gi --allow-unauthenticated
 ```
+
+Start the app and test it locally with:
+```
+curl --location 'http://localhost:8080' \
+--header 'ce-id: test id' \
+--header 'ce-source: test source' \
+--header 'ce-type: test type' \
+--header 'ce-specversion: test specversion' \
+--header 'ce-subject: test subject' \
+--header 'Content-Type: application/json' \
+--data '{
+    "message": {
+        "randomId": "1fdcc71b-42d9-4a98-aa64-941aae4957f1",
+        "quote": "test quote",
+        "author": "anonymous",
+        "book": "new book",
+        "attributes": {}
+    }
+}'
+```
+
 
 Test the application in Cloud Run
 ```shell

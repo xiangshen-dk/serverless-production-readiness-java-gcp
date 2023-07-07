@@ -53,7 +53,7 @@ public class AuditApplicationContainerTests {
 //  @Disabled("Until Spring Boot 3.1 is released")
   @Test
   void testEventRepositoryStoreImage() throws ExecutionException, InterruptedException {
-    ApiFuture<WriteResult> writeResult = eventService.storeImage("test quote", "test author", "test book", UUID.randomUUID().toString());
+    ApiFuture<WriteResult> writeResult = eventService.auditQuote("test quote", "test author", "test book", UUID.randomUUID().toString());
     Assertions.assertNotNull(writeResult.get().getUpdateTime());
   }
 }

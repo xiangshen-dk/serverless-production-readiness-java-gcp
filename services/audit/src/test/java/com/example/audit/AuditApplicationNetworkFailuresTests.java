@@ -89,7 +89,7 @@ public class AuditApplicationNetworkFailuresTests {
   @Test
   @DisplayName("The normal test, no Toxi proxy ")
   void testEventRepositoryStoreQuote() throws ExecutionException, InterruptedException {
-    ApiFuture<WriteResult> writeResult = eventService.storeImage("test quote", "test author", "test book", UUID.randomUUID().toString());
+    ApiFuture<WriteResult> writeResult = eventService.auditQuote("test quote", "test author", "test book", UUID.randomUUID().toString());
     Assertions.assertNotNull(writeResult.get().getUpdateTime());
   }
 
@@ -98,7 +98,7 @@ public class AuditApplicationNetworkFailuresTests {
   void testEventRepositoryStoreQuoteWithLatency() throws ExecutionException, InterruptedException, IOException {
     firestoreProxy.toxics().latency("firestore-latency", ToxicDirection.DOWNSTREAM, 1600).setJitter(100);
 
-    ApiFuture<WriteResult> writeResult = eventService.storeImage("test quote", "test author", "test book", UUID.randomUUID().toString());
+    ApiFuture<WriteResult> writeResult = eventService.auditQuote("test quote", "test author", "test book", UUID.randomUUID().toString());
     Assertions.assertNotNull(writeResult.get().getUpdateTime());
   }
 
@@ -109,7 +109,7 @@ public class AuditApplicationNetworkFailuresTests {
 
 		try {
 			assertTimeout(Duration.ofSeconds(1), () -> {
-        ApiFuture<WriteResult> writeResult = eventService.storeImage("test quote", "test author", "test book", UUID.randomUUID().toString());
+        ApiFuture<WriteResult> writeResult = eventService.auditQuote("test quote", "test author", "test book", UUID.randomUUID().toString());
         Assertions.assertNotNull(writeResult.get().getUpdateTime());    
 			});
 		}catch (AssertionFailedError e){
@@ -124,7 +124,7 @@ public class AuditApplicationNetworkFailuresTests {
 
 		try {
 			assertTimeout(Duration.ofSeconds(1), () -> {
-        ApiFuture<WriteResult> writeResult = eventService.storeImage("test quote", "test author", "test book", UUID.randomUUID().toString());
+        ApiFuture<WriteResult> writeResult = eventService.auditQuote("test quote", "test author", "test book", UUID.randomUUID().toString());
         Assertions.assertNotNull(writeResult.get().getUpdateTime());    
 			});
 		}catch (AssertionFailedError e){
@@ -138,7 +138,7 @@ public class AuditApplicationNetworkFailuresTests {
 			throw new RuntimeException(e);
 		}
 
-    ApiFuture<WriteResult> writeResult = eventService.storeImage("test quote", "test author", "test book", UUID.randomUUID().toString());
+    ApiFuture<WriteResult> writeResult = eventService.auditQuote("test quote", "test author", "test book", UUID.randomUUID().toString());
     Assertions.assertNotNull(writeResult.get().getUpdateTime());    
   }
 
@@ -149,7 +149,7 @@ public class AuditApplicationNetworkFailuresTests {
 
 		try {
 			assertTimeoutPreemptively(Duration.ofSeconds(5), () -> {
-        ApiFuture<WriteResult> writeResult = eventService.storeImage("test quote", "test author", "test book", UUID.randomUUID().toString());
+        ApiFuture<WriteResult> writeResult = eventService.auditQuote("test quote", "test author", "test book", UUID.randomUUID().toString());
         Assertions.assertNotNull(writeResult.get().getUpdateTime());    
           });
 		}catch (AssertionFailedError e){
@@ -159,7 +159,7 @@ public class AuditApplicationNetworkFailuresTests {
 		firestoreProxy.toxics().get("firestore-cut-connection-downstream").remove();
 		firestoreProxy.toxics().get("firestore-cut-connection-upstream").remove();
 
-    ApiFuture<WriteResult> writeResult = eventService.storeImage("test quote", "test author", "test book", UUID.randomUUID().toString());
+    ApiFuture<WriteResult> writeResult = eventService.auditQuote("test quote", "test author", "test book", UUID.randomUUID().toString());
     Assertions.assertNotNull(writeResult.get().getUpdateTime());    
     System.out.println("Restore network connection and test succesfully!");
 	}  

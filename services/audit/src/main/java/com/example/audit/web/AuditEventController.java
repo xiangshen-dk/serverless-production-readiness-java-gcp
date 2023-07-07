@@ -97,9 +97,11 @@ public class AuditEventController {
             return new ResponseEntity<String>(msg, HttpStatus.BAD_REQUEST);
         }
 
-        String ceSubject = headers.get("ce-subject");
-        String msg = "Detected change in Cloud Storage bucket: (ce-subject) : " + ceSubject;
-        System.out.println(msg);
+        // String ceSubject = headers.get("ce-subject");
+        // String msg = "Detected change in Cloud Storage bucket: (ce-subject) : " + ceSubject;
+        // System.out.println(msg);
+
+        String msg = "OK";
 
         Map<String, String> message = (Map<String, String>) body.get("message");
         String quote = (String) message.get("quote");
@@ -109,16 +111,19 @@ public class AuditEventController {
 
         // Saving result to Firestore
         try {
-            ApiFuture<WriteResult> writeResult = eventService.storeImage(quote, author, book, randomID);
-            logger.info("Book metadata saved in Firestore at " + writeResult.get().getUpdateTime());
+            ApiFuture<WriteResult> writeResult = eventService.auditQuote(quote, author, book, randomID);
+            msg = String.format("Book metadata saved in Firestore at %s", writeResult.get().getUpdateTime().toString());
+            logger.info(msg);
         } catch(IllegalArgumentException e) {
             System.out.println("Could not write quote data to Firestore" + e.getMessage());
             return new ResponseEntity<String>(msg, HttpStatus.FAILED_DEPENDENCY);
         } catch(PermissionDeniedException | StatusRuntimeException e){
-            System.out.println("Can not access the Firestore service - permission denied: " + e.getMessage());
+            String.format("Can not access the Firestore service - permission denied: %s", e.getMessage());
+            System.out.println(msg); 
             return new ResponseEntity<String>(msg, HttpStatus.UNAUTHORIZED);
         } catch(Exception e) {
-            System.out.println("Can not access the Firestore service: " + e.getMessage());
+            msg = String.format("Can not access the Firestore service: %s", e.getMessage());
+            System.out.println(msg);
             return new ResponseEntity<String>(msg, HttpStatus.UNAUTHORIZED);
         }
 

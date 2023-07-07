@@ -28,11 +28,15 @@ public class AuditService {
     this.firestore = firestore;
   }
 
-  public ApiFuture<WriteResult> storeImage(String quote, String author, String book, String randomID) {
+  public ApiFuture<WriteResult> auditQuote(String quote, String author, String book, String randomID) {
     DocumentReference doc = firestore.collection("books").document(author);
 
     Map<String, Object> data = new HashMap<>();
     data.put("created", new Date());
+    data.put("quote",quote);
+    data.put("author",author);
+    data.put("book",book);
+    data.put("randomID",randomID);
 
     return doc.set(data, SetOptions.merge());
   }
