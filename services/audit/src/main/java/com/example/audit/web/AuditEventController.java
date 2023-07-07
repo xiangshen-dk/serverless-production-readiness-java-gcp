@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.audit;
+package com.example.audit.web;
 
 import com.google.api.gax.rpc.PermissionDeniedException;
 import io.grpc.StatusRuntimeException;
@@ -28,6 +28,8 @@ import java.text.SimpleDateFormat;
 import javax.annotation.PostConstruct;
 
 import com.example.audit.actuator.StartupCheck;
+import com.example.audit.domain.AuditService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,4 +125,3 @@ public class AuditEventController {
         return new ResponseEntity<String>(msg, HttpStatus.OK);
     }
 }
-// [END eventarc_audit_storage_handler]

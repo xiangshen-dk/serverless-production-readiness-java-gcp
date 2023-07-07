@@ -46,7 +46,7 @@ java -Dspring.aot.enabled -jar target/quotes-1.0.0.jar
 ```
 ./mvnw verify
 
- ./mvnw -PnativeTest test
+./mvnw -PnativeTest test
 ```
 
 ### Start your app with AOT enabled

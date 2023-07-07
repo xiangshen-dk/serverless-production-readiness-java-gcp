@@ -1,4 +1,4 @@
-package com.example.audit;
+package com.example.audit.domain;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;

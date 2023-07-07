@@ -132,11 +132,12 @@
                             </jvmArguments>                        
                             <image>
                                 <name>${project.artifactId}-maven-native</name>
-                                <builder>dashaun/builder:tiny</builder>
-
+                                <!-- <builder>dashaun/builder:tiny</builder> -->
+                                <builder>paketobuildpacks/builder:tiny</builder>
                                 <env>
                                     <BP_NATIVE_IMAGE>1</BP_NATIVE_IMAGE>
                                     <BP_JVM_VERSION>17</BP_JVM_VERSION>
+                                    <BP_JVM_JLINK_ENABLED>true</BP_JVM_JLINK_ENABLED>
                                 </env>                
                             </image>
                         </configuration>

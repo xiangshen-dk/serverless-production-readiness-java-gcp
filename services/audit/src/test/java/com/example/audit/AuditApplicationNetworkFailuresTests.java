@@ -1,5 +1,6 @@
 package com.example.audit;
 
+import com.example.audit.domain.AuditService;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.NoCredentials;
 import com.google.cloud.firestore.Firestore;
