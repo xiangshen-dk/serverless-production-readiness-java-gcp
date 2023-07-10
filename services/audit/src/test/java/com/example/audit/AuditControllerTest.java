@@ -36,7 +36,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
 @Testcontainers
 @AutoConfigureMockMvc
-public class AuditApplicationTest {
+public class AuditControllerTest {
     @Autowired
     private MockMvc mockMvc;
     String mockBody;

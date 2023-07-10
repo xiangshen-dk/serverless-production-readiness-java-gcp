@@ -23,7 +23,7 @@ import java.util.concurrent.ExecutionException;
 @SpringBootTest
 @Testcontainers
 //@ActiveProfiles("test")
-public class AuditApplicationContainerTests {
+public class AuditApplicationFirestoreContainerTests {
   @BeforeEach
   public void setup() {
     FirestoreOptions options = FirestoreOptions.getDefaultInstance().toBuilder()

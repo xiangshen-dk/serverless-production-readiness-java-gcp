@@ -1,11 +1,11 @@
-package com.example.audit;
+package com.example.quotes;
 
 import org.springframework.boot.SpringApplication;
 
-public class TestApplication {
+public class TestQuotesApplication {
   public static void main(String[] args) {
     SpringApplication
-        .from(AuditApplication::main)
+        .from(QuotesApplication::main)
         .with(TestcontainersConfig.class)
         .run(args);
   }

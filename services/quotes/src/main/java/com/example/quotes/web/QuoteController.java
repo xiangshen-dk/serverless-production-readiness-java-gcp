@@ -1,10 +1,15 @@
 package com.example.quotes.web;
 
+import com.example.quotes.actuator.StartupCheck;
 import com.example.quotes.domain.QuoteService;
+import jakarta.annotation.PostConstruct;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 
 import com.example.quotes.domain.Quote;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +23,26 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class QuoteController {
+    private static final Logger logger = LoggerFactory.getLogger(QuoteController.class);
 
     private final QuoteService quoteService;
 
     public QuoteController(QuoteService quoteService) {
         this.quoteService = quoteService;
+    }
+
+    @PostConstruct
+    public void init() {
+        logger.info("QuotesApplication: EventController Post Construct Initializer " + new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date(System.currentTimeMillis())));
+        logger.info("QuotesApplication: EventController Post Construct - StartupCheck can be enabled");
+
+        StartupCheck.up();
+    }
+
+    @GetMapping("start")
+    String start() {
+        logger.info("QuotesApplication: EventController - Executed start endpoint request " + new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date(System.currentTimeMillis())));
+        return "EventController started";
     }
 
     @GetMapping("/random-quote")

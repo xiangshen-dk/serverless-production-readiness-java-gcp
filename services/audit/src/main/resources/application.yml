@@ -1,3 +1,6 @@
+server:
+  port: ${PORT:8084}
+
 management:
   endpoint:
     health:
