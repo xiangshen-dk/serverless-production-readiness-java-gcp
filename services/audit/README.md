@@ -105,8 +105,8 @@ gcloud run deploy audit-native \
 ```
 
 Start the app and test it locally with:
-```
-curl --location 'http://localhost:8080' \
+```shell
+curl --location 'http://localhost:8084' \
 --header 'ce-id: test id' \
 --header 'ce-source: test source' \
 --header 'ce-type: test type' \

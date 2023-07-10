@@ -75,6 +75,8 @@ docker build -f ./containerize/Dockerfile-custom -t quotes-custom .
 ```shell
 gcloud builds submit  --machine-type E2-HIGHCPU-32
 
+gcloud builds submit --config=cloudbuild-docker.yaml --machine-type E2-HIGHCPU-32
+
 gcloud builds submit  --machine-type E2-HIGHCPU-32 --config cloudbuild-native.yaml
 ```
 
@@ -94,6 +96,11 @@ gcloud run deploy quotes \
      --image gcr.io/${PROJECT_ID}/quotes \
      --region us-central1 \
      --memory 2Gi --allow-unauthenticated
+     
+gcloud run deploy quotes-docker \
+     --image gcr.io/${PROJECT_ID}/quotes-docker \
+     --region us-central1 \
+     --memory 2Gi --allow-unauthenticated     
 ```
 
 Deploy the Quotes Native Java image
@@ -104,6 +111,17 @@ gcloud run deploy quotes-native \
      --memory 2Gi --allow-unauthenticated
 ```
 
+Test the application locally
+```shell
+curl --location 'http://localhost:8083/quotes' \
+--header 'Content-Type: application/json' \
+--data '{
+    "author" : "Isabel Allende",
+    "quote" : "The longer I live, the more uninformed I feel. Only the young have an explanation for everything.",
+    "book" : "City of the Beasts"
+}'
+```
+
 Test the application in Cloud Run
 ```shell
 TOKEN=$(gcloud auth print-identity-token)
@@ -111,6 +129,10 @@ TOKEN=$(gcloud auth print-identity-token)
 # Test JIT image
 http -A bearer -a $TOKEN  https://quotes-ndn7ymldhq-uc.a.run.app/random-quote
 http -A bearer -a $TOKEN  https://quotes-ndn7ymldhq-uc.a.run.app/quotes
+
+# Test JIT image - Docker image built with Dockerfile
+http -A bearer -a $TOKEN  https://quotes-docker-ndn7ymldhq-uc.a.run.app/random-quote
+http -A bearer -a $TOKEN  https://quotes-docker-ndn7ymldhq-uc.a.run.app/quotes
 
 # Test Native Java image
 http -A bearer -a $TOKEN https://quotes-native-ndn7ymldhq-uc.a.run.app/random-quote
