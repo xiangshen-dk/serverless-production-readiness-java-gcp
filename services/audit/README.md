@@ -56,7 +56,7 @@ java -Dspring.aot.enabled -jar target/audit-1.0.0.jar
 ### Build a Docker image with Dockerfiles
 ```shell
 # build an image with jlink
-docker build . -f ./containerize/Dockerfile -t audit-jlink
+docker build . -f ./containerize/Dockerfile-jlink -t audit-jlink
 
 # build an image with a fat JAR
 docker build -f ./containerize/Dockerfile-fatjar -t audit-fatjar .
@@ -125,15 +125,27 @@ curl --location 'http://localhost:8080' \
 ```
 
 
-Test the application in Cloud Run
+Test Audit application in Cloud Run
 ```shell
 TOKEN=$(gcloud auth print-identity-token)
 
-# Test JIT image
-http -A bearer -a $TOKEN  https://audit-ndn7ymldhq-uc.a.run.app/random-quote
-http -A bearer -a $TOKEN  https://audit-ndn7ymldhq-uc.a.run.app/audit
+# Test JIT image with HTTPie
+http -A bearer -a $TOKEN  https://audit-ndn7ymldhq-uc.a.run.app/start
 
-# Test Native Java image
-http -A bearer -a $TOKEN https://audit-native-ndn7ymldhq-uc.a.run.app/random-quote
-http -A bearer -a $TOKEN https://audit-native-ndn7ymldhq-uc.a.run.app/audit
+curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" \
+--header 'ce-id: test id' \
+--header 'ce-source: test source' \
+--header 'ce-type: test type' \
+--header 'ce-specversion: test specversion' \
+--header 'ce-subject: test subject' \
+--header 'Content-Type: application/json' \
+--data '{
+    "message": {
+        "randomId": "1fdcc71b-42d9-4a98-aa64-941aae4957f1",
+        "quote": "test quote",
+        "author": "anonymous",
+        "book": "new book",
+        "attributes": {}
+    }
+}' -X POST https://audit-ndn7ymldhq-uc.a.run.app
 ```

@@ -56,7 +56,7 @@ java -Dspring.aot.enabled -jar target/quotes-1.0.0.jar
 ### Build a Docker image with Dockerfiles
 ```shell
 # build an image with jlink
-docker build . -f ./containerize/Dockerfile -t quotes-jlink
+docker build . -f ./containerize/Dockerfile-jlink -t quotes-jlink
 
 # build an image with a fat JAR
 docker build -f ./containerize/Dockerfile-fatjar -t quotes-fatjar .
