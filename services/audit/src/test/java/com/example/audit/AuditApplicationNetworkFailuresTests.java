@@ -68,7 +68,7 @@ public class AuditApplicationNetworkFailuresTests {
   private static final FirestoreEmulatorContainer firestoreEmulator =
       new FirestoreEmulatorContainer(
           DockerImageName.parse(
-              "gcr.io/google.com/cloudsdktool/cloud-sdk:437.0.0-emulators"))
+              "gcr.io/google.com/cloudsdktool/cloud-sdk:438.0.0-emulators"))
               .withNetwork(network).withNetworkAliases("firestore");
 
 	@Container
