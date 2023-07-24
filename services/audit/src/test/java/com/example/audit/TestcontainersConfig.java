@@ -19,7 +19,7 @@ public class TestcontainersConfig {
   public Firestore firestoreContainer(){
     firestoreEmulator = new FirestoreEmulatorContainer(
         DockerImageName.parse(
-            "gcr.io/google.com/cloudsdktool/cloud-sdk:438.0.0-emulators"));
+            "gcr.io/google.com/cloudsdktool/cloud-sdk:439.0.0-emulators"));
 
     firestoreEmulator.start();
 

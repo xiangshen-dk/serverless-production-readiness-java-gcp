@@ -23,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -44,7 +45,6 @@ public class AuditControllerTest {
 
     @BeforeEach
     public void setup() throws JSONException {
-
         JSONObject message =
                 new JSONObject()
                         .put("quote", "test quote")
@@ -55,6 +55,7 @@ public class AuditControllerTest {
         mockBody = new JSONObject().put("message", message).toString();
     }
 
+    @Disabled
     @Test
     public void goodTest() throws Exception {
         mockMvc

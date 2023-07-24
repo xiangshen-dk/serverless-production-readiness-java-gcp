@@ -68,7 +68,7 @@ public class AuditApplicationNetworkFailuresTests {
   private static final FirestoreEmulatorContainer firestoreEmulator =
       new FirestoreEmulatorContainer(
           DockerImageName.parse(
-              "gcr.io/google.com/cloudsdktool/cloud-sdk:438.0.0-emulators"))
+              "gcr.io/google.com/cloudsdktool/cloud-sdk:439.0.0-emulators"))
               .withNetwork(network).withNetworkAliases("firestore");
 
 	@Container
@@ -110,7 +110,7 @@ public class AuditApplicationNetworkFailuresTests {
 		try {
 			assertTimeout(Duration.ofSeconds(1), () -> {
         ApiFuture<WriteResult> writeResult = eventService.auditQuote("test quote", "test author", "test book", UUID.randomUUID().toString());
-        Assertions.assertNotNull(writeResult.get().getUpdateTime());    
+        Assertions.assertNotNull(writeResult.get().getUpdateTime());
 			});
 		}catch (AssertionFailedError e){
 			System.out.println("Test and encounter exception" + e.getMessage());
