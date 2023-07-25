@@ -15,21 +15,19 @@
  */
 package com.example.audit.web;
 
+import com.example.audit.actuator.StartupCheck;
+import com.example.audit.domain.AuditService;
+import com.google.api.core.ApiFuture;
 import com.google.api.gax.rpc.PermissionDeniedException;
+import com.google.cloud.firestore.WriteResult;
 import io.grpc.StatusRuntimeException;
-import java.lang.reflect.InvocationTargetException;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-
 import javax.annotation.PostConstruct;
-
-import com.example.audit.actuator.StartupCheck;
-import com.example.audit.domain.AuditService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +39,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.google.cloud.firestore.*;
-import com.google.api.core.ApiFuture;
 
 @RestController
 public class AuditEventController {
@@ -104,15 +99,16 @@ public class AuditEventController {
         String msg = "OK";
 
         Map<String, String> message = (Map<String, String>) body.get("message");
-        String quote = (String) message.get("quote");
-        String author = (String) message.get("author");
-        String book = (String) message.get("book");
-        String randomID = (String) message.get("randomId");
+        String quote = message.get("quote");
+        String author = message.get("author");
+        String book = message.get("book");
+        String randomID = message.get("randomId");
 
         // Saving result to Firestore
         try {
             ApiFuture<WriteResult> writeResult = eventService.auditQuote(quote, author, book, randomID);
-            msg = String.format("Book metadata saved in Firestore at %s", writeResult.get().getUpdateTime().toString());
+            msg = String.format("Book metadata saved in Firestore at %s",
+                writeResult.get().getUpdateTime());
             logger.info(msg);
         } catch(IllegalArgumentException e) {
             System.out.println("Could not write quote data to Firestore" + e.getMessage());

@@ -2,7 +2,6 @@ package com.example.bff.actuator;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)

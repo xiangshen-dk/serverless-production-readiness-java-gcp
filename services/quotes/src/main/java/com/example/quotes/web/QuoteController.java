@@ -1,13 +1,12 @@
 package com.example.quotes.web;
 
 import com.example.quotes.actuator.StartupCheck;
+import com.example.quotes.domain.Quote;
 import com.example.quotes.domain.QuoteService;
 import jakarta.annotation.PostConstruct;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
-
-import com.example.quotes.domain.Quote;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;

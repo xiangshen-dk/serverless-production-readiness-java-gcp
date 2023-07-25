@@ -1,12 +1,15 @@
 package com.example.audit.domain;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.*;
-import org.springframework.stereotype.Service;
-
+import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.FirestoreOptions;
+import com.google.cloud.firestore.SetOptions;
+import com.google.cloud.firestore.WriteResult;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.stereotype.Service;
 
 @Service
 public class AuditService {

@@ -56,7 +56,7 @@ Each service can be built/tested/deployed individually or as part of the entire 
 * [Quotes](services/quotes/README.md) Service - manage quotes from famous books, persisted in CloudSQL (Postgres)
 * [Audit](services/audit/README.md) Service - audit updates (persisted in Firestore)
 * [Reference](services/reference/README.md) Service - invoked by BFF service at start-up, to read reference data
-* [Faulty](services/faulty/README.md) Service - illustrate a 
+* [Faulty](services/faulty/README.md) Service - illustrate a faulty service for resiliency purposes
 * [BFF](services/bff/README.md) Service - Backend-for-frontend service for downstream services
 
 ![App](images/prod-readiness1.png)

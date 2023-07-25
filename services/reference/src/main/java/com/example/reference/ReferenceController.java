@@ -1,17 +1,15 @@
 package com.example.reference;
 
+import com.example.reference.data.Metadata;
+import com.google.cloud.MetadataConfig;
+import java.util.concurrent.TimeUnit;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import com.example.reference.data.Metadata;
-import com.google.cloud.MetadataConfig;
-
-import java.util.concurrent.TimeUnit;
 
 @RestController
 public class ReferenceController {
