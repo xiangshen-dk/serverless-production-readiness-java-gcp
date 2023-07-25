@@ -52,6 +52,8 @@ or open the repo directly in Cloudshell:
 ### Sample services 
 A set of services is provided to illustrate the various concepts, following the architecture below.
 
+All services are documented and can be built from a single script as per [README.md](services/README.md) in the `services` folder.
+
 Each service can be built/tested/deployed individually or as part of the entire architecture
 * [Quotes](services/quotes/README.md) Service - manage quotes from famous books, persisted in CloudSQL (Postgres)
 * [Audit](services/audit/README.md) Service - audit updates (persisted in Firestore)
