@@ -22,6 +22,7 @@ public class Quote
     private Integer id;
     private String quote;
     private String author;
+    private String book;
 
     public Integer getId() {
         return id;
@@ -47,6 +48,13 @@ public class Quote
         this.author = author;
     }
 
+    public String getBook() {
+      return book;
+    }
+
+    public void setBook(String book) {
+    this.book = book;
+  }
     @Override
     public boolean equals(Object o) {
       if (this == o) {

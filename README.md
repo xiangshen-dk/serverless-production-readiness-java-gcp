@@ -47,7 +47,10 @@ or open the repo directly in Cloudshell:
   * Install via [SDKMan](https://sdkman.io/install) or your favorite package manager
 * `GraalVM` for building Native Java Images 
   * Install via SDKMan - `sdk install java 17.0.7-graal`
-  * Install directly from [GraalVM Download](https://www.graalvm.org/downloads/) site 
+  * Install directly from [GraalVM Download](https://www.graalvm.org/downloads/) site
+* `API Testing`
+  * Use [cURL](curl.se) or
+  * [HTTPie](https://httpie.io/)
 
 ### Sample services 
 A set of services is provided to illustrate the various concepts, following the architecture below.

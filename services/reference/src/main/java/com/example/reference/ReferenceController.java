@@ -17,6 +17,7 @@ package com.example.reference;
 
 import com.example.reference.data.Metadata;
 import com.google.cloud.MetadataConfig;
+import java.text.SimpleDateFormat;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,6 +34,12 @@ public class ReferenceController {
 
   // logger
   private static final Log logger = LogFactory.getLog(ReferenceController.class);
+
+  @GetMapping("start")
+  String start() {
+    logger.info("ReferenceApplication: ReferenceController - Executed start endpoint request " + new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date(System.currentTimeMillis())));
+    return "ReferenceController started";
+  }
 
   @GetMapping("/metadata") 
   public ResponseEntity<Metadata> metadata(){

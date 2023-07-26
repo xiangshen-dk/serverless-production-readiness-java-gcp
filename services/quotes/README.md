@@ -4,7 +4,7 @@
 
 ```
 # Note: repository URL subject to change!
-git clone git@github.com:ddobrin/optimize-serverless-google-cloud-java.git
+git clone https://github.com/ddobrin/serverless-production-readiness-java-gcp.git
 
 # Note: subject to change!
 cd services/quotes
@@ -34,7 +34,7 @@ Java HotSpot(TM) 64-Bit Server VM Oracle GraalVM 17.0.7+8.1 (build 17.0.7+8-LTS-
 
 From a terminal window, test the app
 ```
-curl localhost:8080
+curl localhost:8083/start
 
 # Output
 Hello from your local environment!
@@ -133,15 +133,16 @@ Test the application in Cloud Run
 ```shell
 TOKEN=$(gcloud auth print-identity-token)
 
+# Get the URL of the deployed service
 # Test JIT image
-http -A bearer -a $TOKEN  https://quotes-ndn7ymldhq-uc.a.run.app/random-quote
-http -A bearer -a $TOKEN  https://quotes-ndn7ymldhq-uc.a.run.app/quotes
+http -A bearer -a $TOKEN  https://<BASE_URL>/random-quote
+http -A bearer -a $TOKEN  https://<BASE_URL>/quotes
 
 # Test JIT image - Docker image built with Dockerfile
-http -A bearer -a $TOKEN  https://quotes-docker-ndn7ymldhq-uc.a.run.app/random-quote
-http -A bearer -a $TOKEN  https://quotes-docker-ndn7ymldhq-uc.a.run.app/quotes
+http -A bearer -a $TOKEN  <BASE_URL>/random-quote
+http -A bearer -a $TOKEN  <BASE_URL>/quotes
 
 # Test Native Java image
-http -A bearer -a $TOKEN https://quotes-native-ndn7ymldhq-uc.a.run.app/random-quote
-http -A bearer -a $TOKEN https://quotes-native-ndn7ymldhq-uc.a.run.app/quotes
+http -A bearer -a $TOKEN <BASE_URL>/random-quote
+http -A bearer -a $TOKEN <BASE_URL>/quotes
 ```

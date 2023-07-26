@@ -54,16 +54,16 @@ public class AuditEventController {
 
     @PostConstruct
     public void init() {
-        logger.info("AuditApplication: EventController Post Construct Initializer " + new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date(System.currentTimeMillis())));
-        logger.info("AuditApplication: EventController Post Construct - StartupCheck can be enabled");
+        logger.info("AuditApplication: AuditController Post Construct Initializer " + new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date(System.currentTimeMillis())));
+        logger.info("AuditApplication: AuditController Post Construct - StartupCheck can be enabled");
 
         StartupCheck.up();
     }
 
     @GetMapping("start")
     String start() {
-        logger.info("AuditApplication: EventController - Executed start endpoint request " + new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date(System.currentTimeMillis())));
-        return "EventController started";
+        logger.info("AuditApplication: AuditController - Executed start endpoint request " + new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date(System.currentTimeMillis())));
+        return "AuditController started";
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)

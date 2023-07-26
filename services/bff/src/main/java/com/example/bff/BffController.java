@@ -20,6 +20,7 @@ import com.example.bff.data.Data;
 import com.example.bff.data.Quote;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import okhttp3.OkHttpClient;
@@ -90,7 +91,7 @@ public class BffController {
             .build();
 
       // retrieve metadata at startup
-      if(metadata != null) {
+      if(metadata == null) {
         try {
           ResponseBody data = ServiceRequests.makeAuthenticatedRequest(ok, referenceURL,
               "metadata");
@@ -107,6 +108,12 @@ public class BffController {
       }
       // enable the startup actuator
       StartupCheck.up();
+  }
+
+  @GetMapping("start")
+  String start() {
+    logger.info("BFFApplication: BFFController - Executed start endpoint request " + new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date(System.currentTimeMillis())));
+    return (metadata != null ? "BFFController started" : "BFFController started however Reference Data service could not be accessed");
   }
 
   @GetMapping("/quotes") 
@@ -136,14 +143,14 @@ public class BffController {
   }
 
   @PostMapping("/quotes")
-  public ResponseEntity<String> createQuote(@RequestBody Data data) {
+  public ResponseEntity<String> createQuote(@RequestBody Quote data) {
     logger.info("Quote: " + data);
 
     // build a Quote
     Quote quote = new Quote();
-    quote.setId(data.getId());
     quote.setAuthor(data.getAuthor());
     quote.setQuote(data.getQuote());
+    quote.setBook(data.getBook());
 
     ObjectMapper mapper = new ObjectMapper();
     String quoteString;

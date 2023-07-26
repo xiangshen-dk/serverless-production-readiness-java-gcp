@@ -50,16 +50,16 @@ public class QuoteController {
 
     @PostConstruct
     public void init() {
-        logger.info("QuotesApplication: EventController Post Construct Initializer " + new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date(System.currentTimeMillis())));
-        logger.info("QuotesApplication: EventController Post Construct - StartupCheck can be enabled");
+        logger.info("QuotesApplication: QuoteController Post Construct Initializer " + new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date(System.currentTimeMillis())));
+        logger.info("QuotesApplication: QuoteController Post Construct - StartupCheck can be enabled");
 
         StartupCheck.up();
     }
 
     @GetMapping("start")
     String start() {
-        logger.info("QuotesApplication: EventController - Executed start endpoint request " + new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date(System.currentTimeMillis())));
-        return "EventController started";
+        logger.info("QuotesApplication: QuotesController - Executed start endpoint request " + new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date(System.currentTimeMillis())));
+        return "QuoteController started";
     }
 
     @GetMapping("/random-quote")
