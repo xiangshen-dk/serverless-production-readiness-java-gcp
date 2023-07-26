@@ -20,6 +20,9 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Quote Domain Service to access quotes in teh repository
+ */
 @Service
 @Transactional //(readOnly = true)
 public class QuoteService {

@@ -23,6 +23,9 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.util.Objects;
 
+/**
+ * Describes a Quote entity
+ */
 @Entity
 @Table(name = "quotes")
 public class Quote {

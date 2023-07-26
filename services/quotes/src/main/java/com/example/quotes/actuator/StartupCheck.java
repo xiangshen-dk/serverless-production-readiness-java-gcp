@@ -23,6 +23,9 @@ import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 import org.springframework.stereotype.Component;
 
+/**
+ * Implements a Custom Startup Check for the Quotes App
+ */
 @Component
 @Endpoint(id="startup")
 public class StartupCheck {

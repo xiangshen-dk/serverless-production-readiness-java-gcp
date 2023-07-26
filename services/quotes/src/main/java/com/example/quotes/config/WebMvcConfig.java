@@ -19,6 +19,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * Configure endpoints for a different URI
+ */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 

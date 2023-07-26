@@ -3,7 +3,7 @@
 ### Create a Spring Boot Application
 
 ```
-# Note: subject to change!
+# Note: repository URL subject to change!
 git clone git@github.com:ddobrin/optimize-serverless-google-cloud-java.git
 
 # Note: subject to change!
@@ -17,6 +17,16 @@ java -version
 ./mvnw --version
 ```
 
+### Validate that GraalVM for Java is installed if building native images
+```shell
+java -version
+
+# should indicate or later version
+java version "17.0.7" 2023-04-18 LTS
+Java(TM) SE Runtime Environment Oracle GraalVM 17.0.7+8.1 (build 17.0.7+8-LTS-jvmci-23.0-b12)
+Java HotSpot(TM) 64-Bit Server VM Oracle GraalVM 17.0.7+8.1 (build 17.0.7+8-LTS-jvmci-23.0-b12, mixed mode, sharing)
+```
+
 ### Validate that the starter app is good to go
 ```
 ./mvnw clean package spring-boot:run
@@ -28,11 +38,6 @@ curl localhost:8080
 
 # Output
 Hello from your local environment!
-```
-
-### Start your app with AOT enabled
-```shell
-java -Dspring.aot.enabled -jar target/quotes-1.0.0.jar
 ```
 
 ### Build a JVM and Native Java application image
@@ -66,18 +71,18 @@ docker build -f ./containerize/Dockerfile-custom -t quotes-custom .
 ```
 ### Build a JIT and Native Java Docker Image with Buildpacks
 ```
-./mvnw spring-boot:build-image -Pjit
+./mvnw spring-boot:build-image -Pjit -DskipTests
 
-./mvnw spring-boot:build-image -Pnative
+./mvnw spring-boot:build-image -Pnative -DskipTests
 ```
 
 ### Build, test with CloudBuild in Cloud Build
 ```shell
 gcloud builds submit  --machine-type E2-HIGHCPU-32
 
-gcloud builds submit --config=cloudbuild-docker.yaml --machine-type E2-HIGHCPU-32
+gcloud builds submit --config cloudbuild-docker.yaml --machine-type E2-HIGHCPU-32
 
-gcloud builds submit  --machine-type E2-HIGHCPU-32 --config cloudbuild-native.yaml
+gcloud builds submit  --config cloudbuild-native.yaml --machine-type E2-HIGHCPU-32 
 ```
 
 ### Deploy Docker images to Cloud Run
@@ -110,6 +115,8 @@ gcloud run deploy quotes-native \
      --region us-central1 \
      --memory 2Gi --allow-unauthenticated
 ```
+
+### Test the application
 
 Test the application locally
 ```shell

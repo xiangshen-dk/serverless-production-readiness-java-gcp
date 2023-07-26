@@ -18,6 +18,9 @@ package com.example.quotes;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * Application to manage book quotes
+ */
 @SpringBootApplication
 public class QuotesApplication {
 

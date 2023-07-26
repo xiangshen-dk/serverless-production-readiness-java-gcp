@@ -17,6 +17,9 @@ package com.example.quotes;
 
 import org.springframework.boot.SpringApplication;
 
+/**
+ * Start Quotes applications with the Testcontainers configuration
+ */
 public class TestQuotesApplication {
   public static void main(String[] args) {
     SpringApplication

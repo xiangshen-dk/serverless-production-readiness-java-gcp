@@ -35,6 +35,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller to handle requests for Quote CRUD operations
+ */
 @RestController
 public class QuoteController {
     private static final Logger logger = LoggerFactory.getLogger(QuoteController.class);

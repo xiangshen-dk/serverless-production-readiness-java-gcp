@@ -20,6 +20,9 @@ import org.springframework.boot.testcontainers.service.connection.ServiceConnect
 import org.springframework.context.annotation.Bean;
 import org.testcontainers.containers.PostgreSQLContainer;
 
+/**
+ * Configuration to start up Quotes application using Testcontainers
+ */
 @TestConfiguration(proxyBeanMethods = false)
 public class TestcontainersConfig {
 

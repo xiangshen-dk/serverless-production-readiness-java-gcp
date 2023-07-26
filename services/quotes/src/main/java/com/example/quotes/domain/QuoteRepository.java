@@ -20,6 +20,9 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+/**
+ * Implments the Quote repository access
+ */
 public interface QuoteRepository extends JpaRepository<Quote,Long> {
 
     @Query( nativeQuery = true, value =

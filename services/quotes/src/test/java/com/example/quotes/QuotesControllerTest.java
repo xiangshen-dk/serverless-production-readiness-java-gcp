@@ -22,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -33,6 +34,9 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+/**
+ * Test appplication through its web controllers
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
 @AutoConfigureMockMvc
@@ -45,6 +49,7 @@ public class QuotesControllerTest {
   private MockMvc mockMvc;
 
   @Test
+  @DisplayName("Test returns Quotes")
   void shouldReturnQuotes() throws Exception {
     mockMvc.perform(get("/quotes"))
         .andExpect(status().isOk())
@@ -52,6 +57,7 @@ public class QuotesControllerTest {
   }
 
   @Test
+  @DisplayName("Test returns Quotes by Author")
   void shouldReturnQuoteByAuthor() throws Exception {
     mockMvc.perform(get("/quotes/author/George Orwell"))
         .andExpect(status().isOk())
@@ -60,6 +66,7 @@ public class QuotesControllerTest {
   }
 
   @Test
+  @DisplayName("Test saves Book quote in database")
   void shouldSaveProduct() throws Exception {
     mockMvc.perform(
             post("/quotes")
