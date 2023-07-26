@@ -26,6 +26,9 @@ import java.util.HashMap;
 import java.util.Map;
 import org.springframework.stereotype.Service;
 
+/**
+ * Audit Domain service to persistent Quote Audit Data
+ */
 @Service
 public class AuditService {
 

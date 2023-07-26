@@ -25,6 +25,9 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.FirestoreEmulatorContainer;
 import org.testcontainers.utility.DockerImageName;
 
+/**
+ * Configuration to start up Audit application using Testcontainers
+ */
 @TestConfiguration(proxyBeanMethods = false)
 public class TestcontainersConfig {
   private static FirestoreEmulatorContainer firestoreEmulator = null;

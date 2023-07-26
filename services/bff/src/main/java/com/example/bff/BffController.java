@@ -89,20 +89,22 @@ public class BffController {
             .writeTimeout(write, TimeUnit.MILLISECONDS)
             .build();
 
-      // retrieve all quotes
-      try {
-        ResponseBody data = ServiceRequests.makeAuthenticatedRequest(ok, referenceURL, "metadata");
-        metadata = data.string();
+      // retrieve metadata at startup
+      if(metadata != null) {
+        try {
+          ResponseBody data = ServiceRequests.makeAuthenticatedRequest(ok, referenceURL,
+              "metadata");
+          metadata = data.string();
 
-        logger.info("Metadata:" + metadata);
-      } catch (IOException e) {
-        logger.error("Unable to get Reference service data", e);
+          logger.info("Metadata:" + metadata);
+        } catch (IOException e) {
+          logger.error("Unable to get Reference service data", e);
 
-        // fail the startup actuator
-        StartupCheck.down();
-        return;
+          // fail the startup actuator
+          StartupCheck.down();
+          return;
+        }
       }
-
       // enable the startup actuator
       StartupCheck.up();
   }

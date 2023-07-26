@@ -47,6 +47,9 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
+/**
+ * Test network failures for the Audit app integration with dependent services
+ */
 @SpringBootTest
 @Testcontainers
 //@ActiveProfiles("test")

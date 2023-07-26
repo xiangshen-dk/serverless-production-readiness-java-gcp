@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Quote Domain Service to access quotes in teh repository
+ * Quote Domain Service to access quotes in the repository
  */
 @Service
 @Transactional //(readOnly = true)

@@ -3,7 +3,7 @@
 ### Create a Spring Boot Application
 
 ```
-# Note: subject to change!
+# Note: repository location subject to change!
 git clone git@github.com:ddobrin/optimize-serverless-google-cloud-java.git
 
 # Note: subject to change!
@@ -28,11 +28,6 @@ curl localhost:8080
 
 # Output
 Hello from your local environment!
-```
-
-### Start your app with AOT enabled
-```shell
-java -Dspring.aot.enabled -jar target/audit-1.0.0.jar
 ```
 
 ### Build a JVM and Native Java application image
@@ -104,6 +99,8 @@ gcloud run deploy audit-native \
      --memory 2Gi --allow-unauthenticated
 ```
 
+### Testing the Audit app
+
 Start the app and test it locally with:
 ```shell
 curl --location 'http://localhost:8084' \
@@ -123,7 +120,6 @@ curl --location 'http://localhost:8084' \
     }
 }'
 ```
-
 
 Test Audit application in Cloud Run
 ```shell

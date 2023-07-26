@@ -25,6 +25,7 @@ import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -34,6 +35,9 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
+/**
+ * Test persisting data in Firestore repository
+ */
 @SpringBootTest
 @Testcontainers
 //@ActiveProfiles("test")
@@ -66,7 +70,8 @@ public class AuditApplicationFirestoreContainerTests {
 
 //  @Disabled("Until Spring Boot 3.1 is released")
   @Test
-  void testEventRepositoryStoreImage() throws ExecutionException, InterruptedException {
+  @DisplayName("Test persisting audit data for a Quote in Firestore")
+  void testEventRepositoryAuditQuoteData() throws ExecutionException, InterruptedException {
     ApiFuture<WriteResult> writeResult = eventService.auditQuote("test quote", "test author", "test book", UUID.randomUUID().toString());
     Assertions.assertNotNull(writeResult.get().getUpdateTime());
   }

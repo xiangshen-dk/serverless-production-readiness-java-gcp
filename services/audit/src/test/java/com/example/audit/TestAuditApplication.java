@@ -17,6 +17,9 @@ package com.example.audit;
 
 import org.springframework.boot.SpringApplication;
 
+/**
+ * Start up Audit application using Testcontainers
+ */
 public class TestAuditApplication {
   public static void main(String[] args) {
     SpringApplication

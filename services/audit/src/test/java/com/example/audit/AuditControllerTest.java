@@ -23,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -54,6 +55,7 @@ public class AuditControllerTest {
 
     @Disabled
     @Test
+    @DisplayName("This is a successful test. Note diff between platforms!")
     public void goodTest() throws Exception {
         mockMvc
                 .perform(
@@ -73,11 +75,13 @@ public class AuditControllerTest {
     }
 
     @Test
+    @DisplayName("Test with empty request body")
     public void addEmptyBody() throws Exception {
         mockMvc.perform(post("/")).andExpect(status().isBadRequest());
     }
 
     @Test
+    @DisplayName("Test with no message added to teh POST request")
     public void addNoMessage() throws Exception {
         mockMvc
                 .perform(post("/").contentType(MediaType.APPLICATION_JSON).content("{}"))
@@ -85,6 +89,7 @@ public class AuditControllerTest {
     }
 
     @Test
+    @DisplayName("Test with an invalid Mime type")
     public void addInvalidMimetype() throws Exception {
         mockMvc
                 .perform(post("/").contentType(MediaType.TEXT_HTML).content(mockBody))
@@ -92,6 +97,7 @@ public class AuditControllerTest {
     }
 
     @Test
+    @DisplayName("Test with required headers added")
     public void addRequiredHeaders() throws Exception {
         mockMvc
                 .perform(
@@ -106,6 +112,7 @@ public class AuditControllerTest {
     }
 
     @Test
+    @DisplayName("Test with missing required headers")
     public void missingRequiredHeaders() throws Exception {
         mockMvc
                 .perform(

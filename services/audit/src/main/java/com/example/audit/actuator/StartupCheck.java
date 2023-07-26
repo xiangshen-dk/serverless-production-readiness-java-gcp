@@ -23,6 +23,9 @@ import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 import org.springframework.stereotype.Component;
 
+/**
+ * Custom Startup Check for the Audit application
+ */
 @Component
 @Endpoint(id="startup")
 public class StartupCheck {

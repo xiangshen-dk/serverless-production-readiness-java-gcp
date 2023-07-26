@@ -40,6 +40,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller to handle Audit data persist requests
+ */
 @RestController
 public class AuditEventController {
     private static final Logger logger = LoggerFactory.getLogger(AuditEventController.class);
@@ -91,10 +94,6 @@ public class AuditEventController {
             System.out.println(msg);
             return new ResponseEntity<String>(msg, HttpStatus.BAD_REQUEST);
         }
-
-        // String ceSubject = headers.get("ce-subject");
-        // String msg = "Detected change in Cloud Storage bucket: (ce-subject) : " + ceSubject;
-        // System.out.println(msg);
 
         String msg = "OK";
 

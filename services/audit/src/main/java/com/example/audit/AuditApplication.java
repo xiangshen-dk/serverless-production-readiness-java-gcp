@@ -22,6 +22,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * Application to persist audit information about Quote updates
+ */
 @SpringBootApplication
 public class AuditApplication {
 	private static final Logger logger = LoggerFactory.getLogger(AuditApplication.class);
