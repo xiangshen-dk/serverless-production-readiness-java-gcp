@@ -1,10 +1,9 @@
 # Serverless Production Readiness and Optimization for Java in Google Cloud
 
-*Description*
+> **🧪 Status: living repo** - All code samples are deployable in Cloud Run `at all times` and will constantly be updated with new versions, features and use additional Google Cloud  Services.  
 
+**Description**
 This material provides guidelines, best practices and samples focused on `production-ready, optimized, modern Java applications deployed in Cloud Run in GCP`
-
-> **🧪 Status: living repo** - All code samples are deployable in Cloud Run and will constantly be updated with new versions, features and use additional Google Cloud  Services.  
 
 ## Features
 There are multiple aspects to `writing effective services for serverless production environments` and they all revolve around the combination of service design, implementation, testing, configuration with environment configuration and optimization best practices.
@@ -49,7 +48,7 @@ or open the repo directly in Cloudshell:
   * Install via SDKMan - `sdk install java 17.0.7-graal`
   * Install directly from [GraalVM Download](https://www.graalvm.org/downloads/) site
 * `API Testing`
-  * Use [cURL](curl.se) or
+  * Use [cURL](https://curl.se/) or
   * [HTTPie](https://httpie.io/)
 
 ### Sample services 
