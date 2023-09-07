@@ -1,12 +1,15 @@
 {
   "language": "java",
-  "app": "mvn -e -q compile exec:java",
-  "projectId": "c4a8f304-32f0-4c99-a2f9-e73910112432",
+  "app": "./gradlew run",
+  "projectId": "122ffb2f-c6f1-4d7b-ac80-a352d36b5fc4",
   "sendCrashReports": "false",
   "codeMakerOutput": "src/main/java/imports",
   "terraformProviders": [
-    "hashicorp/google@~> 4.79"
+    "hashicorp/google@~> 4.80",
+    "hashicorp/random@~> 3.5.1"
   ],
   "terraformModules": [],
-  "context": {}
+  "context": {
+
+  }
 }

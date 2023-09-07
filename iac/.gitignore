@@ -10,5 +10,7 @@ cdktf.log
 .vscode
 *.iml
 target/
-imports/
-iac/src/main/java/imports
+.gradle/
+build/
+src/main/java/imports/
+src/main/resources/imports/
