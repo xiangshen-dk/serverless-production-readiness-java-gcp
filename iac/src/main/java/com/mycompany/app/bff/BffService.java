@@ -5,21 +5,21 @@ import java.util.Map;
 
 import com.hashicorp.cdktf.TerraformOutput;
 import com.hashicorp.cdktf.providers.google.compute_url_map.ComputeUrlMap;
-import imports.google.cloud_run_v2_service.CloudRunV2Service;
-import imports.google.cloud_run_v2_service.CloudRunV2ServiceTemplate;
-import imports.google.cloud_run_v2_service.CloudRunV2ServiceTemplateContainers;
-import imports.google.cloud_run_v2_service.CloudRunV2ServiceTemplateContainersEnv;
-import imports.google.cloud_run_v2_service.CloudRunV2ServiceTemplateContainersResources;
-import imports.google.cloud_run_v2_service_iam_policy.CloudRunV2ServiceIamPolicy;
-import imports.google.compute_backend_service.ComputeBackendService;
-import imports.google.compute_backend_service.ComputeBackendServiceBackend;
-import imports.google.compute_global_address.ComputeGlobalAddress;
-import imports.google.compute_global_forwarding_rule.ComputeGlobalForwardingRule;
-import imports.google.compute_region_network_endpoint_group.ComputeRegionNetworkEndpointGroup;
-import imports.google.compute_region_network_endpoint_group.ComputeRegionNetworkEndpointGroupCloudRun;
-import imports.google.compute_target_http_proxy.ComputeTargetHttpProxy;
-import imports.google.data_google_iam_policy.DataGoogleIamPolicy;
-import imports.google.data_google_iam_policy.DataGoogleIamPolicyBinding;
+import com.hashicorp.cdktf.providers.google.cloud_run_v2_service.CloudRunV2Service;
+import com.hashicorp.cdktf.providers.google.cloud_run_v2_service.CloudRunV2ServiceTemplate;
+import com.hashicorp.cdktf.providers.google.cloud_run_v2_service.CloudRunV2ServiceTemplateContainers;
+import com.hashicorp.cdktf.providers.google.cloud_run_v2_service.CloudRunV2ServiceTemplateContainersEnv;
+import com.hashicorp.cdktf.providers.google.cloud_run_v2_service.CloudRunV2ServiceTemplateContainersResources;
+import com.hashicorp.cdktf.providers.google.cloud_run_v2_service_iam_policy.CloudRunV2ServiceIamPolicy;
+import com.hashicorp.cdktf.providers.google.compute_backend_service.ComputeBackendService;
+import com.hashicorp.cdktf.providers.google.compute_backend_service.ComputeBackendServiceBackend;
+import com.hashicorp.cdktf.providers.google.compute_global_address.ComputeGlobalAddress;
+import com.hashicorp.cdktf.providers.google.compute_global_forwarding_rule.ComputeGlobalForwardingRule;
+import com.hashicorp.cdktf.providers.google.compute_region_network_endpoint_group.ComputeRegionNetworkEndpointGroup;
+import com.hashicorp.cdktf.providers.google.compute_region_network_endpoint_group.ComputeRegionNetworkEndpointGroupCloudRun;
+import com.hashicorp.cdktf.providers.google.compute_target_http_proxy.ComputeTargetHttpProxy;
+import com.hashicorp.cdktf.providers.google.data_google_iam_policy.DataGoogleIamPolicy;
+import com.hashicorp.cdktf.providers.google.data_google_iam_policy.DataGoogleIamPolicyBinding;
 import software.constructs.Construct;
 
 public class BffService extends Construct {
@@ -31,10 +31,8 @@ public class BffService extends Construct {
     }
 
     public BffService(Construct scope, String id, String project, String region, String refUrl,
-            String quotesUrl, String faultyUrl) {
+            String quotesUrl, String faultyUrl, String imageName) {
         super(scope, id);
-
-        String imageName = "gcr.io/" + project + "/bff-jit";
 
         CloudRunV2ServiceTemplateContainersEnv quotesSvcUrl = CloudRunV2ServiceTemplateContainersEnv
                 .builder().name("QUOTES_URL").value(quotesUrl).build();

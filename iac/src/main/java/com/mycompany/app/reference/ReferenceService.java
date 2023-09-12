@@ -1,10 +1,10 @@
 package com.mycompany.app.reference;
 
 import com.hashicorp.cdktf.TerraformOutput;
-import imports.google.cloud_run_v2_service.CloudRunV2Service;
-import imports.google.cloud_run_v2_service.CloudRunV2ServiceTemplate;
-import imports.google.cloud_run_v2_service.CloudRunV2ServiceTemplateContainers;
-import imports.google.cloud_run_v2_service.CloudRunV2ServiceTemplateContainersResources;
+import com.hashicorp.cdktf.providers.google.cloud_run_v2_service.CloudRunV2Service;
+import com.hashicorp.cdktf.providers.google.cloud_run_v2_service.CloudRunV2ServiceTemplate;
+import com.hashicorp.cdktf.providers.google.cloud_run_v2_service.CloudRunV2ServiceTemplateContainers;
+import com.hashicorp.cdktf.providers.google.cloud_run_v2_service.CloudRunV2ServiceTemplateContainersResources;
 import software.constructs.Construct;
 
 import java.util.List;
@@ -18,10 +18,8 @@ public class ReferenceService extends Construct {
         return this.svcUrl;
     }
 
-    public ReferenceService(Construct scope, String id, String project, String region) {
+    public ReferenceService(Construct scope, String id, String project, String region, String imagename) {
         super(scope, id);
-
-        String imagename = "gcr.io/" + project + "/reference-jit";
         
         CloudRunV2Service cr = CloudRunV2Service.Builder.create(this, "reference-cr-service")
                 .name("reference-service").project(project).location(region)

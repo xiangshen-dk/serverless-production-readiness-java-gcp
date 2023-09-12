@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
 	implementation group: 'com.hashicorp', name: 'cdktf-provider-docker', version: '9.0.0'
-    implementation group: 'com.hashicorp', name: 'cdktf-provider-google', version: '9.0.1'
+    implementation group: 'com.hashicorp', name: 'cdktf-provider-google', version: '9.0.2'
     implementation group: 'com.hashicorp', name: 'cdktf', version: '0.18.0'
     implementation group: 'com.hashicorp', name: 'cdktf-provider-random', version: '9.0.0'
     implementation group: 'software.constructs', name: 'constructs', version: '10.2.70'

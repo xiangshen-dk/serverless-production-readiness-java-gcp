@@ -4,12 +4,8 @@
   "projectId": "122ffb2f-c6f1-4d7b-ac80-a352d36b5fc4",
   "sendCrashReports": "false",
   "codeMakerOutput": "src/main/java/imports",
-  "terraformProviders": [
-    "hashicorp/google@~> 4.80",
-    "hashicorp/random@~> 3.5.1"
-  ],
+  "terraformProviders": [],
   "terraformModules": [],
   "context": {
-
   }
 }

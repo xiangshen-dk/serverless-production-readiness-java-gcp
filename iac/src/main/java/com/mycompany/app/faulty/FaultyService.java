@@ -5,10 +5,10 @@ import java.util.Map;
 
 import com.hashicorp.cdktf.TerraformOutput;
 
-import imports.google.cloud_run_v2_service.CloudRunV2Service;
-import imports.google.cloud_run_v2_service.CloudRunV2ServiceTemplate;
-import imports.google.cloud_run_v2_service.CloudRunV2ServiceTemplateContainers;
-import imports.google.cloud_run_v2_service.CloudRunV2ServiceTemplateContainersResources;
+import com.hashicorp.cdktf.providers.google.cloud_run_v2_service.CloudRunV2Service;
+import com.hashicorp.cdktf.providers.google.cloud_run_v2_service.CloudRunV2ServiceTemplate;
+import com.hashicorp.cdktf.providers.google.cloud_run_v2_service.CloudRunV2ServiceTemplateContainers;
+import com.hashicorp.cdktf.providers.google.cloud_run_v2_service.CloudRunV2ServiceTemplateContainersResources;
 import software.constructs.Construct;
 
 public class FaultyService extends Construct {
@@ -19,10 +19,8 @@ public class FaultyService extends Construct {
         return this.svcUrl;
     }
 
-    public FaultyService(Construct scope, String id, String project, String region) {
+    public FaultyService(Construct scope, String id, String project, String region, String imageName) {
         super(scope, id);
-
-        String imageName = "gcr.io/" + project + "/faulty-jit";
 
         CloudRunV2Service cr = CloudRunV2Service.Builder.create(this, "faulty-cr-service")
                 .name("faulty-service").project(project).location(region)

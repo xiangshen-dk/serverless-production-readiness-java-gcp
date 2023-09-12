@@ -4,12 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.hashicorp.cdktf.TerraformOutput;
-
-import imports.google.cloud_run_v2_service.CloudRunV2Service;
-import imports.google.cloud_run_v2_service.CloudRunV2ServiceTemplate;
-import imports.google.cloud_run_v2_service.CloudRunV2ServiceTemplateContainers;
-import imports.google.cloud_run_v2_service.CloudRunV2ServiceTemplateContainersResources;
-import imports.google.project_service.ProjectService;
+import com.hashicorp.cdktf.providers.google.cloud_run_v2_service.CloudRunV2Service;
+import com.hashicorp.cdktf.providers.google.cloud_run_v2_service.CloudRunV2ServiceTemplate;
+import com.hashicorp.cdktf.providers.google.cloud_run_v2_service.CloudRunV2ServiceTemplateContainers;
+import com.hashicorp.cdktf.providers.google.cloud_run_v2_service.CloudRunV2ServiceTemplateContainersResources;
+import com.hashicorp.cdktf.providers.google.project_service.ProjectService;
 import software.constructs.Construct;
 
 public class AuditService extends Construct {
@@ -20,10 +19,9 @@ public class AuditService extends Construct {
         return this.svcUrl;
     }
 
-    public AuditService(Construct scope, String id, String project, String region) {
+    public AuditService(Construct scope, String id, String project, String region,
+            String imageName) {
         super(scope, id);
-
-        String imageName = "gcr.io/" + project + "/audit-jit";
 
         ProjectService.Builder.create(this, "enableFirestoreService").disableOnDestroy(false)
                 .project(project).service("firestore.googleapis.com").build();
