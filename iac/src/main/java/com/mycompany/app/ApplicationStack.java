@@ -30,8 +30,6 @@ public class ApplicationStack extends TerraformStack {
 
         // Initialize the providers
         GoogleProvider.Builder.create(this, "google-cloud").region(region).project(project).build();
-        // Initialize the providers
-        GoogleProvider.Builder.create(this, "google-cloud").region(region).project(project).build();
         RandomProvider.Builder.create(this, "radnom-provider").build();
         DockerProvider.Builder.create(this, "docker")
                 .registryAuth(
