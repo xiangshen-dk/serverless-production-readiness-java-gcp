@@ -1,8 +1,6 @@
 package com.mycompany.app.bff;
 
 import java.util.List;
-import java.util.Map;
-
 import com.hashicorp.cdktf.TerraformOutput;
 import com.hashicorp.cdktf.providers.google.compute_url_map.ComputeUrlMap;
 import com.hashicorp.cdktf.providers.google.cloud_run_v2_service.CloudRunV2Service;
@@ -20,6 +18,7 @@ import com.hashicorp.cdktf.providers.google.compute_region_network_endpoint_grou
 import com.hashicorp.cdktf.providers.google.compute_target_http_proxy.ComputeTargetHttpProxy;
 import com.hashicorp.cdktf.providers.google.data_google_iam_policy.DataGoogleIamPolicy;
 import com.hashicorp.cdktf.providers.google.data_google_iam_policy.DataGoogleIamPolicyBinding;
+import com.mycompany.app.ApplicationConfig;
 import software.constructs.Construct;
 
 public class BffService extends Construct {
@@ -30,9 +29,12 @@ public class BffService extends Construct {
         return this.svcUrl;
     }
 
-    public BffService(Construct scope, String id, String project, String region, String refUrl,
+    public BffService(Construct scope, String id, ApplicationConfig config, String refUrl,
             String quotesUrl, String faultyUrl, String imageName) {
         super(scope, id);
+
+        String project = config.getProject();
+        String region = config.getRegion();
 
         CloudRunV2ServiceTemplateContainersEnv quotesSvcUrl = CloudRunV2ServiceTemplateContainersEnv
                 .builder().name("QUOTES_URL").value(quotesUrl).build();
@@ -49,7 +51,7 @@ public class BffService extends Construct {
                                 .env(List.of(quotesSvcUrl, refSvcUrl, faultySvcUrl))
                                 .image(imageName)
                                 .resources(CloudRunV2ServiceTemplateContainersResources.builder()
-                                        .limits(Map.of("memory", "2Gi")).build())
+                                        .limits(config.getMemory()).build())
                                 .build()))
                         .build())
                 .build();

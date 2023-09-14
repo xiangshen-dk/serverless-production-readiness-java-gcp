@@ -12,16 +12,24 @@ import com.mycompany.app.quotes.QuotesService;
 import com.mycompany.app.reference.ReferenceService;
 import com.hashicorp.cdktf.providers.docker.provider.DockerProvider;
 import com.hashicorp.cdktf.providers.docker.provider.DockerProviderRegistryAuth;
+import com.hashicorp.cdktf.providers.google.compute_network.ComputeNetwork;
 import com.hashicorp.cdktf.providers.google.project_service.ProjectService;
 import com.hashicorp.cdktf.providers.google.provider.GoogleProvider;
+import com.hashicorp.cdktf.providers.google.vpc_access_connector.VpcAccessConnector;
 import com.hashicorp.cdktf.providers.random_provider.provider.RandomProvider;
 
 public class ApplicationStack extends TerraformStack {
 
-    public ApplicationStack(Construct scope, String name, String environment, String project,
-            String region) {
+    public ApplicationStack(Construct scope, String name, ApplicationConfig appConfig) {
         super(scope, name);
 
+        String environment = appConfig.getEnvironment();
+        String project = appConfig.getProject();
+        String region = appConfig.getRegion();
+        String imagePrefix = appConfig.getImagePrefix();
+
+        // Initialize the providers
+        GoogleProvider.Builder.create(this, "google-cloud").region(region).project(project).build();
         // Initialize the providers
         GoogleProvider.Builder.create(this, "google-cloud").region(region).project(project).build();
         RandomProvider.Builder.create(this, "radnom-provider").build();
@@ -35,9 +43,12 @@ public class ApplicationStack extends TerraformStack {
                 .project(project).service("run.googleapis.com").build();
         ProjectService.Builder.create(this, "enableContainerRegistry").disableOnDestroy(false)
                 .project(project).service("containerregistry.googleapis.com").build();
+        ProjectService.Builder.create(this, "enableCompute").disableOnDestroy(false)
+                .project(project).service("compute.googleapis.com").build();
+        ProjectService.Builder.create(this, "enableVpcaccess").disableOnDestroy(false)
+                .project(project).service("vpcaccess.googleapis.com").build();
 
         // Get the image names if they pass in as TF variables
-        String imagePrefix = "gcr.io/" + project + "/";
         TerraformVariable referenceImageName = new TerraformVariable(this, "referenceImageName",
                 TerraformVariableConfig.builder().type("string").defaultValue("reference")
                         .description("Container image name for the reference service").build());
@@ -58,19 +69,31 @@ public class ApplicationStack extends TerraformStack {
                 TerraformVariableConfig.builder().type("string").defaultValue("bff")
                         .description("Container image name for the bff service").build());
 
-        // Deploy the services
-        ReferenceService refSvc = new ReferenceService(this, "reference-" + environment, project,
-                region, imagePrefix + referenceImageName.getStringValue());
+        // Create the VPC
+        ComputeNetwork serviceVpc = ComputeNetwork.Builder.create(this, "service-vpc")
+                .name("service-vpc").autoCreateSubnetworks(false).build();
+        appConfig.setServiceVpc(serviceVpc);
+;
+        // Create the VPC connector for Cloud Run services
+        VpcAccessConnector connector = VpcAccessConnector.Builder.create(this, "vpcConnector")
+                .name("vpc-connector").region(region).network(serviceVpc.getId())
+                .ipCidrRange("10.128.0.0/28").build();
+        appConfig.setConnector(connector);
 
-        QuotesService quotesSvc = new QuotesService(this, "quotes-" + environment, project, region,
+        // Deploy the services
+        ReferenceService refSvc = new ReferenceService(this, "reference-" + environment, appConfig,
+                imagePrefix + referenceImageName.getStringValue());
+
+        QuotesService quotesSvc = new QuotesService(this, "quotes-" + environment, appConfig,
                 imagePrefix + quotesImageName.getStringValue());
 
-        FaultyService faultySvc = new FaultyService(this, "faulty-" + environment, project, region,
+        FaultyService faultySvc = new FaultyService(this, "faulty-" + environment, appConfig,
                 imagePrefix + faultyImageName.getStringValue());
 
-        new AuditService(this, "audit-" + environment, project, region,
+        new AuditService(this, "audit-" + environment, appConfig,
                 imagePrefix + auditImageName.getStringValue());
-        new BffService(this, "bff-" + environment, project, region, refSvc.getSvcUrl(),
-                quotesSvc.getSvcUrl(), faultySvc.getSvcUrl(), imagePrefix + bffImageName.getStringValue());
+        new BffService(this, "bff-" + environment, appConfig, refSvc.getSvcUrl(),
+                quotesSvc.getSvcUrl(), faultySvc.getSvcUrl(),
+                imagePrefix + bffImageName.getStringValue());
     }
 }

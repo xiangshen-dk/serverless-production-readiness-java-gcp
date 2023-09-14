@@ -13,7 +13,7 @@ public class Main {
         // provide the bucket name.
         // If use a remote bakcend, you need to update the configurations such as organization
         // and workspace.
-        // If you need to change backends, refer to 
+        // If you need to change backends, refer to
         // https://developer.hashicorp.com/terraform/cdktf/concepts/remote-backends#migrate-local-state-storage-to-remote
 
         String backend = "LOCAL";
@@ -38,8 +38,8 @@ public class Main {
             region = "us-central1";
         }
 
-        ApplicationStack devStack =
-                new ApplicationStack(app, "application-dev", "development", projectId, region);
+        ApplicationConfig appDevConfig = new ApplicationConfig("dev", projectId, region);
+        ApplicationStack devStack = new ApplicationStack(app, "application-dev", appDevConfig);
         if ("GCS".equals(backend)) {
             GcsBackend.Builder.create(devStack).bucket(bucketName).prefix("terraform/state")
                     .build();
@@ -51,8 +51,8 @@ public class Main {
                     .build());
         }
 
-        ApplicationStack prodStack =
-                new ApplicationStack(app, "application-prod", "production", projectId, region);
+        ApplicationConfig appProdConfig = new ApplicationConfig("prod", projectId, region);
+        ApplicationStack prodStack = new ApplicationStack(app, "application-prod", appProdConfig);
         if ("GCS".equals(backend)) {
             GcsBackend.Builder.create(prodStack).bucket(bucketName).prefix("terraform/state")
                     .build();
