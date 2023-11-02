@@ -52,7 +52,7 @@ cd $ROOT_DIR/iac
 cdktf deploy application-dev --var='referenceImageName=reference-jit' --var='bffImageName=bff-jit' --var='faultyImageName=faulty-jit' --auto-approve
 ```
 
-Wait for a few minutes and check the results. If the commmand runs successfully, you should see output like the following:
+Wait for a few minutes and check the results. If the command runs successfully, you should see output like the following:
 ```terminal
 ...
 bff-dev
@@ -63,7 +63,7 @@ bff-dev
 
 Run the following command to get a JSON output:
 ```bash
-curl http://[load balancer ip]/quotes```
+curl http://[load balancer ip]/quotes
 ```
 If you get an error like `Recv failure`, wait a few minutes and try again.
 
@@ -79,7 +79,7 @@ cdktf destroy application-dev --auto-approve
 ## Use scripts
 Alternatively, you can use the scripts in this directory to automate some of the tasks.
 
-1. Run the following script to build the container images. You can update the script for different type of the images:
+1. Run the following script to build the container images. You can update the script for different types of images:
 ```bash
 ./build-images.sh
 ```
